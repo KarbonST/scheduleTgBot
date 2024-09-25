@@ -32,3 +32,17 @@ async def handle_message(update: Update, context:CallbackContext):
     elif user_schedule == '🏠Расписание аудитории🏠':
         await update.message.reply_text("Напишите номер аудитории, расписание которой вы хотите получить"
                                         " (в формате: В-902а)")
+
+# Создаем экземпляр Application
+application = Application.builder().token(TOKEN).build()
+
+# Регистрация команд
+start_handler = CommandHandler('start', start)
+message_handler = MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message)
+
+application.add_handler(start_handler)
+application.add_handler(message_handler)
+
+# Запуск бота
+if __name__ == '__main__':
+    application.run_polling()
